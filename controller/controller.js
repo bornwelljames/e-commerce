@@ -20,7 +20,8 @@ const HomePage = (req, res)=>{
 const meatSection = (req, res)=>{
     Products.find({category:'Meat'}).sort({timestamp:-1}).then((documents)=>{
         if(documents){
-            res.status(200).json(documents);
+            res.status(200)
+            .render('meat');
         }
 
         if(!documents){
@@ -31,8 +32,8 @@ const meatSection = (req, res)=>{
     });
 };
 
-const vegetableSection = (req, res)=>{
-    Products.find({category:'Fruit'}).sort({timestamp:-1}).then((documents)=>{
+const fruitSection = (req, res)=>{
+    Products.find({category:'Fruits'}).sort({timestamp:-1}).then((documents)=>{
         if(documents){
             res.status(200).json(documents);
         }
@@ -44,6 +45,35 @@ const vegetableSection = (req, res)=>{
         console.log(error.message);
     })
 };
+
+const vegetableSection = (req, res)=>{
+    Products.find({category:'Vegetables'}).sort({timestamp:-1}).then((documents)=>{
+        if(documents){
+            res.status(200).json(documents);
+        }
+
+        if(!documents){
+            res.status(404).json({message:'resources not found'});
+        }
+    }).catch(error=>{
+        console.log(error.message);
+    })
+};
+
+const legumeSection = (req, res)=>{
+    Products.find({category:'Legumes'}).sort({timestamp:-1}).then((documents)=>{
+        if(documents){
+            res.status(200).json(documents);
+        }
+
+        if(!documents){
+            res.status(404).json({message:'resources not found'});
+        }
+    }).catch(error=>{
+        console.log(error.message);
+    })
+};
+
 
 const uploadData = (req, res)=>{
     const product = req.body.item;
@@ -64,4 +94,4 @@ const uploadData = (req, res)=>{
 
 
 
-module.exports = {HomePage, meatSection, vegetableSection, uploadData}
+module.exports = {HomePage, meatSection, vegetableSection,fruitSection,legumeSection,uploadData}
