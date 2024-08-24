@@ -3,13 +3,13 @@ const Products = require('../models/product');
 
 const HomePage = (req, res)=>{
 
-    Products.find({}).sort({category:-1}).limit(4).then((items)=>{
+    Products.find({}).sort({category:1}).limit(8).then((items)=>{
         if(items){
             res.status(200).render('index',{
                 items:items
             })
         }else if(!items){
-            res.status(404).json({message:'coould not find the items'});
+            res.status(404).json({message:'could not find the items'});
         }
     }).catch(err=>{
         console.log(err.message);
@@ -91,7 +91,5 @@ const uploadData = (req, res)=>{
     res.status(500).json({message:error.message})
    })
 };
-
-
 
 module.exports = {HomePage, meatSection, vegetableSection,fruitSection,legumeSection,uploadData}

@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = require('./routes/router');
+const itemRoutes = require('./routes/itemRoutes');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const app = express();
@@ -22,5 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static('public'));
 app.use('/products', routes);
+app.use('/products',itemRoutes);
 app.set('view engine','ejs');
 app.set('views','views');

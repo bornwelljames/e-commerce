@@ -16,12 +16,7 @@ router.get('/legume', controller.legumeSection);
 
 
 // ROUTE TO INSERT AN ITEM INTO THE DATABASE
-router.post('/', controller.uploadData)
-
-
-
-
-
+router.post('/', controller.uploadData);
 
 
 module.exports = router;
