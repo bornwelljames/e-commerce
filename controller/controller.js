@@ -3,7 +3,7 @@ const Products = require('../models/product');
 
 const HomePage = (req, res)=>{
 
-    Products.find({}).limit(4).then((items)=>{
+    Products.find({}).sort({category:-1}).limit(4).then((items)=>{
         if(items){
             res.status(200).render('index',{
                 items:items
@@ -18,11 +18,31 @@ const HomePage = (req, res)=>{
 };
 
 const meatSection = (req, res)=>{
-    res.render('meat');
+    Products.find({category:'Meat'}).sort({timestamp:-1}).then((documents)=>{
+        if(documents){
+            res.status(200).json(documents);
+        }
+
+        if(!documents){
+            res.status(404).json({message:'resources not found'});
+        }
+    }).catch(error=>{
+        console.log(error.message);
+    });
 };
 
 const vegetableSection = (req, res)=>{
-    res.render('plant');
+    Products.find({category:'Fruit'}).sort({timestamp:-1}).then((documents)=>{
+        if(documents){
+            res.status(200).json(documents);
+        }
+
+        if(!documents){
+            res.status(404).json({message:'resources not found'});
+        }
+    }).catch(error=>{
+        console.log(error.message);
+    })
 };
 
 const uploadData = (req, res)=>{

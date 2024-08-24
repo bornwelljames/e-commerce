@@ -22,3 +22,11 @@
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 
 }
+
+address ul li,.fotext{
+    font-family:'Times New Roman', Times, serif;
+    font-size: larger;
+    font-style: oblique;
+    color:whitesmoke;
+    list-style: none;
+}
