@@ -3,7 +3,7 @@ const Products = require('../models/product');
 
 const HomePage = (req, res)=>{
 
-    Products.find({}).sort({category:1}).limit(8).then((items)=>{
+    Products.aggregate([{$sample:{size:8}}]).then((items)=>{
         if(items){
             res.status(200).render('index',{
                 items:items
@@ -67,7 +67,11 @@ const legumeSection = (req, res)=>{
         }
 
         if(!documents){
-            res.status(404).json({message:'resources not found'});
+            res.status(404).
+            render('404',{
+                error:"Could not find the products"
+            })
+            //json({message:'resources not found'});
         }
     }).catch(error=>{
         console.log(error.message);
@@ -83,7 +87,8 @@ const uploadData = (req, res)=>{
     }
     if(!data){
         Products.create(req.body).then((doc)=>{
-            res.status(201).json(doc);
+            res.status(201).
+            redirect('/products');
         })
     }
    }).catch(error=>{

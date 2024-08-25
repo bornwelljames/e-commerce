@@ -1,12 +1,33 @@
-const Items = require('../models/product');
-require('../models/product');
+const { render } = require('ejs');
+const Products = require('../models/product');
 
+const dashboard = async(req, res)=>{
+    try {
+        const products = await Products.find({});
+        if(products){
+        res.status(200).render('./dashboard/dashboard',{
+            products
+        });
+        if(!products){
+            res.status(404).render('404',{
+                error:"Error 404 - Items Not Found!"
+            })
+        }
+    }
+    } catch (error) {
+        
+    }
+    
+}
 const getItem = async (req, res)=>{
     try{
         const {id} = req.params;
-        const item = await Items.findById(id, req.body)
+        const item = await Products.findById(id, req.body)
             if(!item){
-                res.status(404).json({message:'could not find the item'})
+                res.status(404).
+                res.render('404',{
+                    error:"Error 404 - Item Not Found!"
+                })
             }
             if(item){
                 res.status(200).json(item);
@@ -21,12 +42,15 @@ const getItem = async (req, res)=>{
 const updateItem =async (req, res)=>{
     try {
         const {id} = req.params;
-        const item = await Items.findByIdAndUpdate(id, req.body);
+        const item = await Products.findByIdAndUpdate(id, req.body);
         
         if(!item){
-            res.status(404).json({message:'could not find the item'})
+            res.status(404).
+            render('404',{
+                error:"Error 404 - Items Not Found!"
+            })
         }
-        const updatedItem = await Items.findById(id);
+        const updatedItem = await Products.findById(id);
         res.status(200).json(updatedItem);
     } catch (error) {
         res.status(500).json({error:error.message});
@@ -37,10 +61,13 @@ const updateItem =async (req, res)=>{
 const deleteItem = async (req, res)=>{
     try {
         const {id} = req.params;
-        const deleteDoc = await Items.findByIdAndDelete(id);
+        const deleteDoc = await Products.findByIdAndDelete(id);
 
         if(!deleteDoc){
-            res.status(404).json({message:`could not find item with ID ${id}`});
+            res.status(404)
+            render('404',{
+                error:`could not find item with ID ${id}`
+            })
         }
         res.status(200).json({message:`Deleted successfully :${deleteDoc.item}`});
     } catch (error) {
@@ -49,4 +76,4 @@ const deleteItem = async (req, res)=>{
 };
 
 
-module.exports = {getItem, updateItem, deleteItem};
+module.exports = {dashboard, getItem, updateItem, deleteItem};
